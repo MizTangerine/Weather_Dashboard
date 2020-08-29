@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+    <link href='https://fonts.googleapis.com/css?family=Philosopher' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="style.css" />
+
+    <title>Weathed</title>
+</head>
+
+<body>
+    <header>
+        <h1>Weather Dashboard</h1>
+    </header>
+
+    <form class="form">
+        <label for="search">Search for City, State:</label><br>
+        <input type="text" name="citySt">
+        <button class="btn">GO</button>
+    </form> <br>
+
+    <aside class="previous">
+        <!-- <ul style="list-style-type: none;"> -->
+        <li class="list" id="0">search 1</li>
+        <li class="list" id="1">search 2</li>
+        <li class="list" id="2">search 3</li>
+        <li class="list" id="3">search 4</li>
+        <li class="list" id="4">search 5</li>
+        <!-- </ul> -->
+    </aside>
+
+    <div class="container">
+        <div class="current"></div>
+        <div class="forecast"></div>
+    </div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
