@@ -9,7 +9,7 @@
     <link href='https://fonts.googleapis.com/css?family=Philosopher' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="style.css" />
 
-    <title>Weathed</title>
+    <title>Weather Dashboard</title>
 </head>
 
 <body>
@@ -17,11 +17,12 @@
         <h1>Weather Dashboard</h1>
     </header>
 
-    <form class="form">
-        <label for="search">Search for City, State:</label><br>
-        <input type="text" name="citySt">
-        <button class="btn">GO</button>
-    </form> <br>
+    <div class="form">
+        <label for="search">Search for City:</label><br>
+        <span id="error"></span><br>
+        <input type="text" name="city" id="city">
+        <button class="btn" id="btn">GO</button>
+    </div>
 
     <aside class="previous">
         <!-- <ul style="list-style-type: none;"> -->
