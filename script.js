@@ -2,7 +2,8 @@ $(document).ready(function () {
 
     let today = (moment().format('MM/DD/YYYY'));
 
-    $('#btn').click(function () {
+    $('#btn').on('click', function (event) {
+        event.preventDefault()
         let city = $('#city').val()
         const appid = 'a6b91fb6370e45efe199c34a5c679377'
         if (city != '') {
@@ -14,9 +15,10 @@ $(document).ready(function () {
                     console.log('data: ', data)
                     show(data)
                     $('.current').html(show(data))
-                    // $("#city").val('') //clears search city
+                    $("#city").val('') //clears search city
                 }
             })
+
         } else {
             $('#error').html('Field cannot be empty')
         }
