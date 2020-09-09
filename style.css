@@ -36,10 +36,11 @@ header {
 }
 
 .btn {
+    margin-bottom: 10px;
     height: 30px;
     width: 40px;
     color: white;
-    background-color: rgb(114, 212, 245);
+    background-color: #11B3EE;
     border-width: 1px;
     border-radius: 3px;
 }
@@ -49,6 +50,7 @@ header {
 }
 
 input {
+    margin-bottom: 10px;
     height: 30px;
     width: 160px;
     background-color: whitesmoke;
@@ -59,13 +61,21 @@ input {
     padding: 8px;
     width: 200px;
     font-size: 20px;
-    text-align: left;
-    background-color: whitesmoke;
+    text-align: center;
+    background-color: #ffa60079;
     float: left;
 }
 
 .list {
     margin: 8px;
+    padding: 3px;
+    border-style: inset;
+    border-color: #11B3EE;
+    border-width: 2.5px;
+}
+
+.list:hover {
+    cursor: pointer;
 }
 
 .container {
@@ -73,4 +83,8 @@ input {
     background-color: rgba(255, 166, 0, 0.473);
     width: auto;
     height: auto;
+}
+
+.current {
+    text-align: center;
 }

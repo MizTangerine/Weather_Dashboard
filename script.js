@@ -22,7 +22,6 @@ $(document).ready(function () {
 
     // ***when previous search is ckicked 
     $('.previous').on('click', '.list', function () {
-        console.log('working')
         let city = ($(event.target).text())
         // let city = previousEl.text()
         console.log(city)
@@ -42,7 +41,6 @@ $(document).ready(function () {
             }).done((getLL) => {
                 // console.log('getLL: ', getLL)
                 name = getLL.name
-
                 let lat = getLL.coord.lat
                 let lon = getLL.coord.lon
                 // console.log(lat, lon, name)
@@ -52,7 +50,7 @@ $(document).ready(function () {
                     url: 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly&units=imperial&appid=' + appid
                 })
                     .done((data) => {
-                        // console.log('data: ', data)
+                        console.log('data:', data)
                         current(data)
                         $('.current').html(current(data))
                     })
@@ -81,15 +79,37 @@ $(document).ready(function () {
     }
     // ***function to display current weather
     function current(data) {
-        return "<h2>" + name + " " + today
+        let uvi = data.current.uvi
+
+        function bc() {
+            if (uvi < 3) {
+                return 'background-color:green'
+            } else if (uvi >= 3 && uvi < 6) {
+                return 'background-color:yellow'
+            } else if (uvi >= 6 && uvi < 8) {
+                return 'background-color:orange'
+            } else if (uvi >= 8 && uvi < 11) {
+                return 'background-color:red'
+            } else if (uvi >= 11) {
+                return 'background-color:purple'
+            }
+        }
+
+
+        return "<h2>" + name + " (" + today + ")" + "</h2>"
+            + "<h3>" + data.current.weather[0].description + "</h3>"
             + "<img src= http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png alt=" + (data.current.weather[0].main) + ">"
-            + "<h2>Temp: " + data.current.temp
-            + "<h2>Humidity: " + data.current.humidity
-            + "<h2>Wind Speed: " + data.current.wind_speed
+            + "<h2> Current Temp: " + data.current.temp + " \xB0F"
+            + "<h2> Feels Like: " + data.current.feels_like + " \xB0F"
+            + "<h2>Humidity: " + data.current.humidity + "%"
+            + "<h2>Wind: " + data.current.wind_speed + " MPH"
+            + "<h2>UV Index: <span style=padding-right:5px;padding-left:5px;" + bc() + ";color:white>" + data.current.uvi
 
 
         // uv index
     }
+
+
 
     // ***function to retrieve previous searches from local storage
     function getLocal() {
