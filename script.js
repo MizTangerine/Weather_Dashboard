@@ -11,11 +11,9 @@ $(document).ready(function () {
 
     // ***when GO button is clicked or enter pressed
     $('#btn').on('click', function (event) {
-
         event.preventDefault()
-
         let city = $('#city').val()
-
+        console.log(city)
         apiCall(city)
 
     })
@@ -23,7 +21,6 @@ $(document).ready(function () {
     // ***when previous search is ckicked 
     $('.previous').on('click', '.list', function () {
         let city = ($(event.target).text())
-        // let city = previousEl.text()
         console.log(city)
         apiCall(city)
 
@@ -53,15 +50,19 @@ $(document).ready(function () {
                         console.log('data:', data)
                         current(data)
                         $('.current').html(current(data))
+                        // $('.forecast').html(daily(data))
                     })
             })
 
+
             // ***saves search city to local storage
             function saveLocal() {
-                let citySearch = city.substr(0, 1).toUpperCase() + city.substr(1)
-                searchHistory.unshift(citySearch)
-                if (searchHistory.length > 5) {
-                    searchHistory.pop()
+                let citySearch = properCase(city)
+                if (!checkIfDup(searchHistory, citySearch)) {
+                    searchHistory.unshift(citySearch)
+                    if (searchHistory.length > 5) {
+                        searchHistory.pop()
+                    }
                 }
                 localStorage.setItem('searchHistory', JSON.stringify(searchHistory))
             }
@@ -77,10 +78,40 @@ $(document).ready(function () {
 
         previous()
     }
+    //test for duplicate
+    function checkIfDup(checkArray, item) {
+        for (let i = 0; i < checkArray.length; i++) {
+            let currentItem = checkArray[i]
+            if (item === currentItem) {
+                return true
+            }
+
+
+        }
+        return false
+    }
+
+
+
+    // Proper Case (not just first letter)
+    function properCase(words) {
+        let wordArray = words.split(' ')
+        for (let i = 0; i < wordArray.length; i++) {
+            let currentWord = wordArray[i]
+            wordArray[i] = currentWord.substr(0, 1).toUpperCase() + currentWord.substr(1)
+        }
+        let proper = wordArray.join(' ')
+        return proper
+    }
+
+    console.log(properCase("the quick brown fox jumps over the lazy dog"))
+
+
     // ***function to display current weather
     function current(data) {
-        let uvi = data.current.uvi
 
+        //***background color for uv index
+        let uvi = data.current.uvi
         function bc() {
             if (uvi < 3) {
                 return 'background-color:green'
@@ -94,8 +125,7 @@ $(document).ready(function () {
                 return 'background-color:purple'
             }
         }
-
-
+        //***to display on page
         return "<h2>" + name + " (" + today + ")" + "</h2>"
             + "<h3>" + data.current.weather[0].description + "</h3>"
             + "<img src= http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png alt=" + (data.current.weather[0].main) + ">"
@@ -104,10 +134,17 @@ $(document).ready(function () {
             + "<h2>Humidity: " + data.current.humidity + "%"
             + "<h2>Wind: " + data.current.wind_speed + " MPH"
             + "<h2>UV Index: <span style=padding-right:5px;padding-left:5px;" + bc() + ";color:white>" + data.current.uvi
-
-
-        // uv index
     }
+    // ***to display the forecast
+    // function daily(data) {
+    //     let forecast = data.daily[i]
+    //     console.log(forecast)
+    //     for (let i = 1; i < 6; i++) {
+    //         return forecast.daily[i].clouds
+    //     }
+    // }
+
+
 
 
 
@@ -137,5 +174,5 @@ $(document).ready(function () {
 })
 
 // THINGS TO ADD:
-// -if city exists in searchHistory, don't add it
-// -make searchHistory Proper Case (not just first letter)
+
+// -clear error
