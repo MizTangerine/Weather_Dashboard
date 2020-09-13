@@ -1,6 +1,7 @@
 $(document).ready(function () {
     // ****global variables
     let today = (moment().format('MM/DD/YYYY'));
+    // console.log(today)
     let name;
     let searchHistory = []
 
@@ -12,18 +13,20 @@ $(document).ready(function () {
     // ***when GO button is clicked or enter pressed
     $('#btn').on('click', function (event) {
         event.preventDefault()
+        $('#error').empty()
+
         let city = $('#city').val()
         console.log(city)
         apiCall(city)
 
     })
 
-    // ***when previous search is ckicked 
+    // ***when previous search is clicked 
     $('.previous').on('click', '.list', function () {
+        $('#error').empty()
         let city = ($(event.target).text())
         console.log(city)
         apiCall(city)
-
     })
 
     // ***API call
@@ -49,13 +52,15 @@ $(document).ready(function () {
                     .done((data) => {
                         console.log('data:', data)
                         current(data)
-                        $('.current').html(current(data))
+                        // $('.current').html(current(data))
                         // $('.forecast').html(daily(data))
+                        daily(data)
                     })
             })
 
-
             // ***saves search city to local storage
+            // *** TA showing me what is to come***
+            // let citySearch = city.split(' ').map(word => word.substr(0, 1).toUpperCase() + word.substr(1)).join(' ');
             function saveLocal() {
                 let citySearch = properCase(city)
                 if (!checkIfDup(searchHistory, citySearch)) {
@@ -64,18 +69,23 @@ $(document).ready(function () {
                         searchHistory.pop()
                     }
                 }
+                // *** TA showing me what is to come***
+                // let found = searchHistory.find(hist => hist === citySearch);
+                // if (!found) {
+                //     searchHistory.unshift(citySearch);
+                //     if (searchHistory.length > 5) {
+                //         searchHistory.pop();
+                //     }
+                // }
                 localStorage.setItem('searchHistory', JSON.stringify(searchHistory))
             }
-
             saveLocal()
 
             $("#city").val('') //clears search city
-
         }
         else {
             $('#error').html('City is Required') //displays message if city is empty
         }
-
         previous()
     }
     //test for duplicate
@@ -85,13 +95,9 @@ $(document).ready(function () {
             if (item === currentItem) {
                 return true
             }
-
-
         }
         return false
     }
-
-
 
     // Proper Case (not just first letter)
     function properCase(words) {
@@ -104,45 +110,71 @@ $(document).ready(function () {
         return proper
     }
 
-    console.log(properCase("the quick brown fox jumps over the lazy dog"))
-
-
     // ***function to display current weather
     function current(data) {
-
+        $('.current').empty()
+        $('.forecast').empty()
         //***background color for uv index
         let uvi = data.current.uvi
         function bc() {
             if (uvi < 3) {
-                return 'background-color:green'
+                return 'green'
             } else if (uvi >= 3 && uvi < 6) {
-                return 'background-color:yellow'
+                return 'yellow'
             } else if (uvi >= 6 && uvi < 8) {
-                return 'background-color:orange'
+                return 'orange'
             } else if (uvi >= 8 && uvi < 11) {
-                return 'background-color:red'
+                return 'red'
             } else if (uvi >= 11) {
-                return 'background-color:purple'
+                return 'purple'
             }
         }
         //***to display on page
-        return "<h2>" + name + " (" + today + ")" + "</h2>"
-            + "<h3>" + data.current.weather[0].description + "</h3>"
-            + "<img src= http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png alt=" + (data.current.weather[0].main) + ">"
-            + "<h2> Current Temp: " + data.current.temp + " \xB0F"
-            + "<h2> Feels Like: " + data.current.feels_like + " \xB0F"
-            + "<h2>Humidity: " + data.current.humidity + "%"
-            + "<h2>Wind: " + data.current.wind_speed + " MPH"
-            + "<h2>UV Index: <span style=padding-right:5px;padding-left:5px;" + bc() + ";color:white>" + data.current.uvi
+        // return "<h2>" + name + " (" + today + ")" + "</h2>"
+        //     + "<img class=icon src= http://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png alt=" + (data.current.weather[0].main) + ">"
+        //     + "<p>" + properCase(data.current.weather[0].description) + "</p>"
+        //     + "<p> Current Temp: " + data.current.temp + " \xB0F" + "<br>"
+        //     + "Feels Like: " + data.current.feels_like + " \xB0F" + "<br>"
+        //     + "Humidity: " + data.current.humidity + "%" + "<br>"
+        //     + "Wind: " + data.current.wind_speed + " MPH" + "<br>"
+        //     + "UV Index: <span style=padding-right:5px;padding-left:5px;" + bc() + ";color:white>" + data.current.uvi + "</p>"
+
+        let cIcon = "http://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png"
+        let cIconAlt = data.current.weather[0].main
+        let cIconEl = $('<img>').attr({ 'class': 'icon', 'src': cIcon, 'alt': cIconAlt })
+        let cDescr = $('<p>').attr({ 'class': 'bottom-center' }).text(properCase(data.current.weather[0].description))
+        let cDivIcon = $('<div>').attr({ 'class': 'curr-icon' }).append(cIconEl, cDescr)
+        let cTempEl = $('<p>').text("Current Temp: " + data.current.temp + " \xB0F")
+        let cFeelEl = $('<p>').text("Humidity: " + data.current.humidity + "%")
+        let cWindEl = $('<p>').text("Wind: " + data.current.wind_speed + " MPH")
+        let cUviEl = $('<p>').text("UV Index: ").append($('<span>').css({
+            'padding right': '5px',
+            'padding left': '5px',
+            'background-color': bc(),
+            'color': 'white'
+        }).text(data.current.uvi))
+
+
+
+        $('.current').append(name, today, cDivIcon, cTempEl, cFeelEl, cWindEl, cUviEl)
+
     }
-    // ***to display the forecast
-    // function daily(data) {
-    //     let forecast = data.daily[i]
-    //     console.log(forecast)
-    //     for (let i = 1; i < 6; i++) {
-    //         return forecast.daily[i].clouds
-    //     }
-    // }
+    // ***to display the ForeCast
+    function daily(data) {
+        for (let i = 1; i < 6; i++) {
+            let forecast = data.daily[i]
+            console.log('forecast', forecast)
+            let fcDate = moment.unix(forecast.dt).utc().format('MM/DD/YYYY')
+            let fcDateEl = $('<p>').text(fcDate)
+            let fcIcon = "http://openweathermap.org/img/w/" + forecast.weather[0].icon + ".png"
+            let fcIconEl = $('<img>').attr({ 'class': 'icon', 'src': fcIcon, 'alt': forecast.weather.main })
+            let fcMaxEl = $('<p>').text("Max: " + forecast.temp.max + " \xB0F")
+            let fcMinEl = $('<p>').text("Min: " + forecast.temp.min + " \xB0F")
+            let fcHumidityEl = $('<p>').text("Humidity: " + forecast.humidity + "%")
+
+            $('.forecast').append(fcDateEl, fcIconEl, fcMaxEl, fcMinEl, fcHumidityEl)
+        }
+    }
 
 
 
@@ -166,13 +198,6 @@ $(document).ready(function () {
             listEl.text(searchHistory[i])
 
             $('.previous').append(listEl)
-
         }
-
     }
-
 })
-
-// THINGS TO ADD:
-
-// -clear error

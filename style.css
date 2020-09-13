@@ -1,6 +1,7 @@
 *, *::before, *::after {
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     font-family: 'Philosopher', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 16px;
 }
 
 body::after {
@@ -59,7 +60,9 @@ input {
 .previous {
     list-style-type: none;
     padding: 8px;
-    width: 200px;
+    width: 25%;
+    max-width: 225px;
+    border-radius: 5px;
     font-size: 20px;
     text-align: center;
     background-color: #ffa60079;
@@ -69,6 +72,7 @@ input {
 .list {
     margin: 8px;
     padding: 3px;
+    border-radius: 5px;
     border-style: inset;
     border-color: #11B3EE;
     border-width: 2.5px;
@@ -81,10 +85,31 @@ input {
 .container {
     float: right;
     background-color: rgba(255, 166, 0, 0.473);
-    width: auto;
-    height: auto;
+    border-radius: 5px;
+    width: 70%;
+    height: 200px;
 }
 
 .current {
     text-align: center;
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+}
+
+.icon {
+    all: unset;
+    width: 75px;
+    height: 75px;
+}
+
+.curr-icon {
+    position: relative;
+    /* text-align: center; */
+}
+
+.bottom-center {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
