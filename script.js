@@ -7,8 +7,8 @@ $(document).ready(function () {
 
     // ***page first loads
 
-    getLocal()
-    previous()
+    getLocal();
+    previous();
 
     // ***when GO button is clicked or enter pressed
     $('#btn').on('click', function (event) {
@@ -22,7 +22,7 @@ $(document).ready(function () {
     })
 
     // ***when previous search is clicked 
-    $('.previous').on('click', '.list', function () {
+    $('.previous').on('click', '.list', function (event) {
         $('#error').empty()
         let city = ($(event.target).text())
         console.log(city)
@@ -151,7 +151,7 @@ $(document).ready(function () {
             'padding right': '5px',
             'padding left': '5px',
             'background-color': bc(),
-            'color': 'white'
+            'color': 'gray'
         }).text(data.current.uvi))
 
 
@@ -184,6 +184,7 @@ $(document).ready(function () {
     function getLocal() {
         if (localStorage.getItem('searchHistory') !== null) {
             searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
+            apiCall(searchHistory[0]);
         }
     }
 
@@ -199,5 +200,6 @@ $(document).ready(function () {
 
             $('.previous').append(listEl)
         }
+
     }
 })
