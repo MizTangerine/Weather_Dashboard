@@ -29,6 +29,7 @@ header {
 
 .form {
     font-size: 20px;
+    margin: 8px;
 }
 
 #error {
@@ -59,14 +60,14 @@ input {
 
 .previous {
     list-style-type: none;
+    margin: 5px;
     padding: 8px;
-    width: 25%;
-    max-width: 225px;
     border-radius: 5px;
     font-size: 20px;
     text-align: center;
     background-color: #ffa60079;
-    float: left;
+    min-width: fit-content;
+    flex-grow: .25;
 }
 
 .list {
@@ -83,17 +84,18 @@ input {
 }
 
 .container {
-    float: right;
-    background-color: rgba(255, 166, 0, 0.473);
-    border-radius: 5px;
-    width: 70%;
-    height: 200px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .current {
+    min-height: 220px;
+    margin: 5px;
+    background-color: #ffa60079;
+    border-radius: 5px;
+    flex-grow: 2;
     text-align: center;
-    /* display: flex; */
-    /* flex-wrap: wrap; */
+    min-width: fit-content;
 }
 
 .icon {
@@ -104,7 +106,6 @@ input {
 
 .curr-icon {
     position: relative;
-    /* text-align: center; */
 }
 
 .bottom-center {
@@ -112,4 +113,33 @@ input {
     bottom: 0px;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.forecast {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    border-radius: 5px;
+    width: 95%;
+    height: auto;
+    margin: 5px;
+    text-align: center;
+}
+
+.card {
+    margin: 5px;
+    background-color: #ace9fd9b;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+h2 {
+    font-size: 25px;
+    font-weight: Bold;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: 100;
+    margin: 3px;
 }

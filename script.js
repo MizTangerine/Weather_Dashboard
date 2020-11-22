@@ -129,22 +129,24 @@ $(document).ready(function () {
             }
         };
         //***to display on page
+        let cityEl = $('<h2>').attr({ class: 'city' }).text(name);
+        let dateEl = $('<h2>').text(today);
         let cIcon = "http://openweathermap.org/img/w/" + data.current.weather[0].icon + ".png";
         let cIconAlt = data.current.weather[0].main;
         let cIconEl = $('<img>').attr({ 'class': 'icon', 'src': cIcon, 'alt': cIconAlt });
-        let cDescr = $('<p>').attr({ 'class': 'bottom-center' }).text(properCase(data.current.weather[0].description));
+        let cDescr = $('<p>').attr({ class: 'bottom-center' }).text(properCase(data.current.weather[0].description));
         let cDivIcon = $('<div>').attr({ 'class': 'curr-icon' }).append(cIconEl, cDescr);
-        let cTempEl = $('<p>').text("Current Temp: " + data.current.temp + " \xB0F");
-        let cFeelEl = $('<p>').text("Humidity: " + data.current.humidity + "%");
-        let cWindEl = $('<p>').text("Wind: " + data.current.wind_speed + " MPH");
-        let cUviEl = $('<p>').text("UV Index: ").append($('<span>').css({
+        let cTempEl = $('<h3>').text("Current Temp: " + data.current.temp + " \xB0F");
+        let cFeelEl = $('<h3>').text("Humidity: " + data.current.humidity + "%");
+        let cWindEl = $('<h3>').text("Wind: " + data.current.wind_speed + " MPH");
+        let cUviEl = $('<h3>').text("UV Index: ").append($('<span>').css({
             'padding right': '5px',
             'padding left': '5px',
             'background-color': bc(),
             'color': 'white'
         }).text(data.current.uvi));
 
-        $('.current').append(name, today, cDivIcon, cTempEl, cFeelEl, cWindEl, cUviEl);
+        $('.current').append(cityEl, dateEl, cDivIcon, cTempEl, cFeelEl, cWindEl, cUviEl);
 
     }
     // ***to display the ForeCast
@@ -152,14 +154,14 @@ $(document).ready(function () {
         for (let i = 1; i < 6; i++) {
             let forecast = data.daily[i];
             console.log('forecast', forecast);
-            let fcCardEl = $('<div>').attr({ class: 'card' + i });
+            let fcCardEl = $('<div>').attr({ class: 'card', id: 'id' + i });
             let fcDate = moment.unix(forecast.dt).utc().format('MM/DD/YYYY');
-            let fcDateEl = $('<p>').text(fcDate);
+            let fcDateEl = $('<h2>').text(fcDate);
             let fcIcon = "http://openweathermap.org/img/w/" + forecast.weather[0].icon + ".png";
             let fcIconEl = $('<img>').attr({ 'class': 'icon', 'src': fcIcon, 'alt': forecast.weather.main });
-            let fcMaxEl = $('<p>').text("Max: " + forecast.temp.max + " \xB0F");
-            let fcMinEl = $('<p>').text("Min: " + forecast.temp.min + " \xB0F");
-            let fcHumidityEl = $('<p>').text("Humidity: " + forecast.humidity + "%");
+            let fcMaxEl = $('<h3>').text("Max: " + forecast.temp.max + " \xB0F");
+            let fcMinEl = $('<h3>').text("Min: " + forecast.temp.min + " \xB0F");
+            let fcHumidityEl = $('<h3>').text("Humidity: " + forecast.humidity + "%");
 
             $('.forecast').append(fcCardEl);
             $(fcCardEl).append(fcDateEl, fcIconEl, fcMaxEl, fcMinEl, fcHumidityEl);
