@@ -49,7 +49,7 @@ $(document).ready(function () {
                     url: 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=minutely,hourly&units=imperial&appid=' + appid
                 })
                     .done((data) => {
-                        console.log('data:', data);
+                        // console.log('data:', data);
                         current(data);
                         daily(data);
                     });
@@ -153,7 +153,7 @@ $(document).ready(function () {
     function daily(data) {
         for (let i = 1; i < 6; i++) {
             let forecast = data.daily[i];
-            console.log('forecast', forecast);
+            // console.log('forecast', forecast);
             let fcCardEl = $('<div>').attr({ class: 'card', id: 'id' + i });
             let fcDate = moment.unix(forecast.dt).utc().format('MM/DD/YYYY');
             let fcDateEl = $('<h2>').text(fcDate);
